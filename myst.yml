@@ -1,0 +1,46 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+extends:
+  - https://raw.githubusercontent.com/FAIR2Adapt/fair2adapt-helpdesk/main/fair2adapt.yml
+project:
+  id: ea3ac578-ab0a-47c8-a10a-9d06678a9450
+  title: Case Study Template to be reused for any new FAIR2Adapt Case Study
+  short_title: Case Study Template
+  abstract: Notebooks developed for supporting stakeholders of a given case study.
+  subject: template
+  keywords:
+    - Modelling
+    - Python
+  thumbnail: static/thumbnail.png
+  requirements:
+    - environment.yml
+  github: https://github.com/FAIR2Adapt/case-study-template
+  jupyter:
+    binder:
+      repo: FAIR2Adapt/case-study-template
+  open_access: true
+  license:
+    content: CC-BY-4.0
+    code: MIT
+  date: 2025-16-05
+  toc:
+    - file: index.md
+    - file: notebooks/notebook.ipynb
+  exports:
+    - format: pdf
+      template: curvenote
+      article: notebooks/notebook.ipynb
+      output: exports/notebook.pdf
+    - format: cff
+      type: software
+      version: v2.0.0
+      license: MIT
+      license-url: https://opensource.org/license/MIT
+  bibliography:
+    - references.bib
+
+site:
+  template: book-theme
+  options:
+    hide_toc: true
+    logo: static/logo.png
