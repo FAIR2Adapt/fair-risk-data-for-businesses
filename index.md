@@ -1,4 +1,3 @@
-# Case study Template
+# FAIR Climare Risk Data for Businesses
 
-This is a template for a FAIR2Adapt case study
-
+Improving data availability for climate risk assessments under the EU taxonomy for sustainable activities.
