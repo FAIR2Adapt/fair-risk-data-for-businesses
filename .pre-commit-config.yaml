@@ -1,0 +1,38 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+      - id: black-jupyter
+        args: [--line-length=88]
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        args: [--profile=black]
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.9.0
+    hooks:
+      - id: nbqa-ruff
+        args: [--fix, --exit-non-zero-on-fix, --extend-ignore=E402]
+      - id: nbqa-black
+        args: [--line-length=88]
+      - id: nbqa-isort
+        args: [--profile=black]
+  - repo: local
+    hooks:
+      - id: clean-notebooks
+        name: Clean Jupyter Notebook outputs
+        entry: jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace
+        language: system
+        files: \.ipynb$
