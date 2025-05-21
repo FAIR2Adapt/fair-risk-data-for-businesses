@@ -13,7 +13,7 @@ env:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
@@ -36,6 +36,38 @@ jobs:
           node-version: 18.x
       - name: Install MyST Markdown
         run: npm install -g mystmd
+      # Install dependencies
+      - name: Set up Mamba
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: environment.yml
+          environment-name: myenv
+          cache-environment: true
+          init-shell: bash
+          condarc: |
+            channels:
+              - conda-forge
+            channel_priority: strict
+      - name: Install custom packages
+        shell: micromamba-shell {0}
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Generate environment lock file
+        shell: micromamba-shell {0}
+        run: |
+          micromamba env export --no-builds > environment.lock.yml
+        env:
+          MAMBA_NO_BANNER: 1  # Suppress Mamba banner for cleaner output
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "update generated environment.lock.yml file"
+          add: "environment.lock.yml"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build HTML Assets
         run: |
           rm -rf _build
